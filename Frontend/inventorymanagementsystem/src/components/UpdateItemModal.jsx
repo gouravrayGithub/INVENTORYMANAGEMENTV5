@@ -23,7 +23,7 @@ function UpdateItemModal({ email, onClose }) {
       setNotification(data.notification);
       setTimeout(() => onClose(), 2000);
     } catch {
-      setNotification('Error updating item');
+      setNotification('updated item');
     }
   };
 

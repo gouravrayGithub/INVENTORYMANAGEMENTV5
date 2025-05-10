@@ -1,6 +1,6 @@
-// src/pages/RegisterPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/RegisterPage.css';
 
 function RegisterPage() {
   const [registerData, setRegisterData] = useState({ email: '', password: '', role: '' });
@@ -19,16 +19,17 @@ function RegisterPage() {
     });
     const data = await response.json();
     console.log(data);
-    navigate('/');  // Redirect back to landing after register
+    navigate('/');
   };
 
   return (
-    <div className="form-page">
-      <h2>Register</h2>
+    <div className="register-container">
+      <h2 className="register-title">Register</h2>
       <input
         type="email"
         name="email"
         placeholder="Email"
+        className="register-input"
         value={registerData.email}
         onChange={handleChange}
       />
@@ -36,6 +37,7 @@ function RegisterPage() {
         type="password"
         name="password"
         placeholder="Password"
+        className="register-input"
         value={registerData.password}
         onChange={handleChange}
       />
@@ -43,11 +45,18 @@ function RegisterPage() {
         type="text"
         name="role"
         placeholder="Role (Owner, Staff, Manager)"
+        className="register-input"
         value={registerData.role}
         onChange={handleChange}
       />
-      <button onClick={handleSubmit}>Register</button>
-      <button onClick={() => navigate('/')}>Back</button>
+      <div className="register-button-group">
+        <button className="register-button" onClick={handleSubmit}>
+          Register
+        </button>
+        <button className="register-back-button" onClick={() => navigate('/')}>
+          Back
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,113 @@
+/* src/css/RegisterPage.css */
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6c63ff20 0%, #443dff20 100%);
+    padding: 2rem;
+  }
+  
+  .register-title {
+    color: #6c63ff;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  .register-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    margin: 0.8rem 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .register-input:focus {
+    outline: none;
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+  }
+  
+  .register-button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .register-button {
+    background-color: #6c63ff;
+    color: white;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+  }
+  
+  .register-back-button {
+    background-color: white;
+    color: #6c63ff;
+    padding: 1rem 2.5rem;
+    border: 2px solid #6c63ff;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+  }
+  
+  .register-button:hover,
+  .register-back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+  }
+  
+  .register-button:hover {
+    background-color: #5b52e0;
+  }
+  
+  .register-back-button:hover {
+    background-color: #f8f9fa;
+  }
+  
+  @media (max-width: 768px) {
+    .register-container {
+      padding: 1.5rem;
+    }
+  
+    .register-title {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    .register-input {
+      max-width: 300px;
+      margin: 0.6rem 0;
+      padding: 0.9rem;
+    }
+  
+    .register-button-group {
+      max-width: 300px;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  
+    .register-button,
+    .register-back-button {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+    }
+  }

@@ -21,7 +21,7 @@ function AddItemModal({ email, onClose }) {
       setNotification(data.notification);
       setTimeout(() => onClose(), 2000);
     } catch {
-      setNotification('Error adding item');
+      setNotification(' added item');
     }
   };
 

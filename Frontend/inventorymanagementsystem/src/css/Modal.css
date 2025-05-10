@@ -1,47 +1,118 @@
+/* src/css/Modal.css */
 .modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 1000;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  color: #6c63ff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.modal-content input:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+.modal-content button[type="submit"] {
+  background-color: #6c63ff;
+  color: white;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #5b52e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+}
+
+.notification {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background-color: #e6f4ea;
+  color: #137333;
+  font-weight: 500;
+  text-align: center;
+  border: 2px solid #abf7b1;
+}
+
+.large-modal {
+  max-width: 600px;
+  padding: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table th {
+  background-color: #6c63ff;
+  color: white;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 480px) {
   .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-  }
-  
-  .modal-content input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 6px;
-  }
-  
-  .notification {
-    margin-top: 10px;
-    background: #dff0d8;
-    color: #3c763d;
-    padding: 5px;
-    border-radius: 5px;
+    width: 95%;
+    padding: 1.5rem;
   }
   
   .large-modal {
-    width: 600px;
-    overflow: auto;
+    max-width: 95%;
   }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  table th, table td {
-    border: 1px solid #ccc;
-    padding: 6px;
-    text-align: center;
-  }
-  
+}

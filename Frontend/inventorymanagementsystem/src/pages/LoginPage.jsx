@@ -1,6 +1,6 @@
-// LoginPage.jsx
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import '../css/LoginPage.css';
 
 function LoginPage() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -20,15 +20,13 @@ function LoginPage() {
 
     if (response.ok) {
       alert('Login successful');
-  // Save email
-  localStorage.setItem('userEmail', loginData.email);
-      // ⬇️ Call /role API to get role
+      localStorage.setItem('userEmail', loginData.email);
+      
       const roleResponse = await fetch(`http://localhost:8080/api/auth/role?email=${loginData.email}`);
       if (roleResponse.ok) {
         const roleData = await roleResponse.json();
-        const role = roleData.role.toLowerCase();  // owner / manager / staff
+        const role = roleData.role.toLowerCase();
 
-        // Navigate based on role
         if (role === 'owner') {
           navigate('/owner');
         } else if (role === 'manager') {
@@ -41,7 +39,6 @@ function LoginPage() {
       } else {
         alert('Failed to fetch user role');
       }
-
     } else {
       const errorText = await response.text();
       alert(errorText);
@@ -49,11 +46,27 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <h2>Login Page</h2>
-      <input type="email" name="email" placeholder="Email" value={loginData.email} onChange={handleChange} />
-      <input type="password" name="password" placeholder="Password" value={loginData.password} onChange={handleChange} />
-      <button onClick={handleSubmit}>Login</button>
+    <div className="login-container">
+      <h2 className="login-title">Login Page</h2>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        className="login-input"
+        value={loginData.email}
+        onChange={handleChange}
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        className="login-input"
+        value={loginData.password}
+        onChange={handleChange}
+      />
+      <button className="login-button" onClick={handleSubmit}>
+        Login
+      </button>
     </div>
   );
 }

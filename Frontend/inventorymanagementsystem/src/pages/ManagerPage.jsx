@@ -1,10 +1,9 @@
-// src/pages/ManagerPage.jsx
 import { useState } from 'react';
 import AddItemModal from '../components/AddItemModal';
 import UpdateItemModal from '../components/UpdateItemModal';
 import DeleteItemModal from '../components/DeleteItemModal';
 import ItemCard from '../components/ItemCard';
-import '../css/OwnerPage.css';   // ✅ Reuse same CSS
+import '../css/ManagerPage.css';
 
 function ManagerPage() {
   const [allItems, setAllItems] = useState([]);
@@ -16,7 +15,7 @@ function ManagerPage() {
   }
 
   const handleShowAll = async () => {
-    const response = await fetch(`http://localhost:8080/api/inventory/ownera@owner.com/all`);
+    const response = await fetch(`http://localhost:8080/api/inventory/${email}/all`);
     if (response.ok) {
       const data = await response.json();
       setAllItems(data);
@@ -25,15 +24,27 @@ function ManagerPage() {
     }
   };
 
-  return (
-    <div className="owner-container">
-      <h1>Manager Dashboard</h1>
+  const actions = [
+    { title: 'Add Item', modal: 'add' },
+    { title: 'Update Item', modal: 'update' },
+    { title: 'Delete Item', modal: 'delete' },
+    { title: 'Show All Items', action: handleShowAll }
+  ];
 
-      <div className="button-group">
-        <button onClick={() => setActiveModal('add')}>Add Item</button>
-        <button onClick={() => setActiveModal('update')}>Update Item</button>
-        <button onClick={() => setActiveModal('delete')}>Delete Item</button>
-        <button onClick={handleShowAll}>Show All Items</button>
+  return (
+    <div className="manager-container">
+      <h1 className="manager-title">Manager Dashboard</h1>
+
+      <div className="dashboard-grid">
+        {actions.map((action) => (
+          <div
+            key={action.title}
+            className="dashboard-card"
+            onClick={action.action || (() => setActiveModal(action.modal))}
+          >
+            <h3>{action.title}</h3>
+          </div>
+        ))}
       </div>
 
       {activeModal === 'add' && <AddItemModal email={email} onClose={() => setActiveModal('')} />}

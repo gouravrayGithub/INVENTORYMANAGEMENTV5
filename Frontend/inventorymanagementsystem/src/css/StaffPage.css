@@ -1,0 +1,80 @@
+/* src/css/StaffPage.css */
+.staff-container {
+    padding: 2rem;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .staff-title {
+    color: #6c63ff;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+  
+  .staff-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Reduced from 200px */
+    gap: 1rem; /* Reduced from 1.5rem */
+    max-width: 1000px; /* Reduced from 1200px */
+    margin: 0 auto 2rem; /* Reduced bottom margin */
+  }
+  
+  .staff-dashboard-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem; /* Reduced from 2rem */
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid transparent;
+  }
+  
+  .staff-dashboard-card h3 {
+    color: #6c63ff;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem; /* Reduced from 1.3rem */
+    padding: 0 0.5rem; /* Added padding for text wrapping */
+  }
+  
+  .staff-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 768px) {
+    .staff-dashboard-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem; /* Reduced from 1rem */
+    }
+  
+    .staff-dashboard-card {
+      padding: 1rem; /* Reduced from 1.5rem */
+    }
+  
+    .staff-title {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .staff-dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .staff-container {
+      padding: 1.5rem;
+    }
+    
+    .staff-dashboard-card h3 {
+      font-size: 1rem; /* Smaller text on mobile */
+    }
+  }

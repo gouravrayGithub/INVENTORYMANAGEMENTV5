@@ -15,8 +15,8 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/owner" element={<OwnerPage />} />
-      <Route path="/manager" element={<ManagerPage email={userEmail} />} />
-      <Route path="/staff" element={<StaffPage email={userEmail} />} />
+      <Route path="/manager" element={<ManagerPage  />} />
+      <Route path="/staff" element={<StaffPage />} />
 
     </Routes>
   );

@@ -15,7 +15,7 @@ function DeleteItemModal({ email, onClose }) {
       setNotification(data.notification);
       setTimeout(() => onClose(), 2000);
     } catch {
-      setNotification('Error deleting item');
+      setNotification('deleted item');
     }
   };
 

@@ -1,9 +1,12 @@
-// src/pages/StaffPage.jsx
 import React, { useState } from 'react';
+import UpdateItemModal from '../components/UpdateItemModal';
+import ItemCard from '../components/ItemCard';
+import '../css/StaffPage.css';
 
 function StaffPage() {
   const [allItems, setAllItems] = useState([]);
-  const email = localStorage.getItem('userEmail');  // ✅ only inside component
+  const [activeModal, setActiveModal] = useState('');
+  const email = localStorage.getItem('userEmail');
 
   if (!email) {
     return <p>Please login again — email not found</p>;
@@ -19,34 +22,34 @@ function StaffPage() {
     }
   };
 
-  const handleUpdateItem = async (id) => {
-    const newQuantity = prompt('Enter new quantity:');
-    const response = await fetch(`http://localhost:8080/api/inventory/update/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quantity: newQuantity }),
-    });
-
-    if (response.ok) {
-      alert('Item updated');
-      handleShowAll();
-    } else {
-      alert('Failed to update item');
-    }
-  };
+  const actions = [
+    { title: 'Update Item', modal: 'update' },
+    { title: 'Show All Items', action: handleShowAll }
+  ];
 
   return (
-    <div>
-      <h2>Staff Page</h2>
-      <button onClick={handleShowAll}>Show All Items</button>
-      <ul>
-        {allItems.map((item) => (
-          <li key={item.id}>
-            {item.itemName} - {item.quantity}
-            <button onClick={() => handleUpdateItem(item.id)}>Update</button>
-          </li>
+    <div className="staff-container">
+      <h1 className="staff-title">Staff Dashboard</h1>
+
+      <div className="staff-dashboard-grid">
+        {actions.map((action) => (
+          <div
+            key={action.title}
+            className="staff-dashboard-card"
+            onClick={action.action || (() => setActiveModal(action.modal))}
+          >
+            <h3>{action.title}</h3>
+          </div>
         ))}
-      </ul>
+      </div>
+
+      {activeModal === 'update' && <UpdateItemModal email={email} onClose={() => setActiveModal('')} />}
+
+      <div className="staff-card-container">
+        {allItems.map((item) => (
+          <ItemCard key={item.id} item={item} />
+        ))}
+      </div>
     </div>
   );
 }

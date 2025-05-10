@@ -42,7 +42,7 @@ public class AuthService {
     public boolean login(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
-            User user = userOpt.get();  );
+            User user = userOpt.get();  
 
             // Check if the password matches the hashed password
             return passwordEncoder.matches(password, user.getPassword());
