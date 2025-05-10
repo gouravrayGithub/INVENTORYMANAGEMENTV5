@@ -1,8 +1,5 @@
 /* src/css/RegisterPage.css */
-
-/*Register Secction*
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-
 
 .register-container {
   min-height: 100vh;
@@ -304,37 +301,4 @@
     flex-direction: column;
     align-items: flex-start;
   }
-
-  
-  @media (max-width: 768px) {
-    .register-container {
-      padding: 1.5rem;
-    }
-  
-    .register-title {
-      font-size: 1.75rem;
-      margin-bottom: 1.5rem;
-    }
-  
-    .register-input {
-      max-width: 300px;
-      margin: 0.6rem 0;
-      padding: 0.9rem;
-    }
-  
-    .register-button-group {
-      max-width: 300px;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-  
-    .register-button,
-    .register-back-button {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1rem;
-    }
-  }
-
 }
-
