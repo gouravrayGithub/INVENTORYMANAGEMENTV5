@@ -1,0 +1,54 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.InventoryItem;
+import com.example.demo.service.AuthService;
+import com.example.demo.service.InventoryService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/inventory")
+public class InventoryController {
+
+    private final AuthService authService;
+    private final InventoryService inventoryService;
+
+    public InventoryController(AuthService authService, InventoryService inventoryService) {
+        this.authService = authService;
+        this.inventoryService = inventoryService;
+    }
+
+    // Helper method for role validation
+    private boolean isValidRole(String email, String... validRoles) {
+        var userOpt = authService.findUserByEmail(email);
+        if (userOpt.isPresent()) {
+            var user = userOpt.get();
+            for (String role : validRoles) {
+                if (user.getRole().equalsIgnoreCase(role)) {
+                    return true; // Role matches
+                }
+            }
+        }
+        return false; // Invalid role or user not found
+    }
+
+    // Add inventory item
+    @PostMapping("/{email}/add")
+    public ResponseEntity<String> addInventoryItem(@PathVariable String email, @RequestBody InventoryItem item) {
+        if (isValidRole(email, "Owner", "Manager")) {
+            inventoryService.addInventoryItem(item);
+            return ResponseEntity.ok("Inventory item added successfully");
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+
+    // Update inventory item
+    @PutMapping("/{email}/update/{id}")
+    public ResponseEntity<String> updateInventoryItem(@PathVariable String email, @PathVariable Long id, @RequestBody InventoryItem item) {
+        if (isValidRole(email, "Owner", "Manager","Staff")) {
+            inventoryService.updateInventoryItem(id, item);
+            return ResponseEntity.ok("Inventory item updated successfully");
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+}

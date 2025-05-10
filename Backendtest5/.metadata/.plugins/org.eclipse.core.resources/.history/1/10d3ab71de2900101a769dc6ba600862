@@ -1,0 +1,52 @@
+package com.example.demo.service;
+
+import com.example.demo.model.InventoryItem;
+import com.example.demo.repository.InventoryRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class InventoryService {
+
+    private final InventoryRepository inventoryRepository;
+
+    public InventoryService(InventoryRepository inventoryRepository) {
+        this.inventoryRepository = inventoryRepository;
+    }
+
+    // Add new inventory item
+    public InventoryItem addItem(InventoryItem item) {
+        return inventoryRepository.save(item); // Use save() for adding or updating items
+    }
+
+    // Get all inventory items
+    public List<InventoryItem> getAllItems() {
+        return inventoryRepository.findAll(); // Standard method for fetching all items
+    }
+
+    // Get an item by ID
+    public Optional<InventoryItem> getItemById(Long id) {
+        return inventoryRepository.findById(id); // Fetch item by ID using findById
+    }
+
+    // Update an inventory item
+    public InventoryItem updateItem(Long id, InventoryItem updatedItem) {
+        // Check if the item exists before updating
+        if (inventoryRepository.existsById(id)) {
+            updatedItem.setId(id); // Make sure we preserve the ID
+            return inventoryRepository.save(updatedItem); // Use save to update
+        }
+        return null; // Return null if the item does not exist
+    }
+
+    // Delete an inventory item
+    public boolean deleteItem(Long id) {
+        if (inventoryRepository.existsById(id)) {
+            inventoryRepository.deleteById(id); // Use deleteById for deletion
+            return true;
+        }
+        return false;
+    }
+}

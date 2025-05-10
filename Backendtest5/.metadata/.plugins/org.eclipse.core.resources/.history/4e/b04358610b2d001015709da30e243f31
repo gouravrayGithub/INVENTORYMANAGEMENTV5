@@ -1,0 +1,90 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.InventoryItem;
+import com.example.demo.service.AuthService;
+import com.example.demo.service.InventoryService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+@CrossOrigin(origins = "http://localhost:5173")
+@RestController
+@RequestMapping("/api/inventory")
+public class InventoryController {
+
+    private final AuthService authService;
+    private final InventoryService inventoryService;
+
+    public InventoryController(AuthService authService, InventoryService inventoryService) {
+        this.authService = authService;
+        this.inventoryService = inventoryService;
+    }
+
+    // Helper method for role validation
+    private boolean isValidRole(String email, String... validRoles) {
+        var userOpt = authService.findUserByEmail(email);
+        if (userOpt.isPresent()) {
+            var user = userOpt.get();
+            for (String role : validRoles) {
+                if (user.getRole().equalsIgnoreCase(role)) {
+                    return true; // Role matches
+                }
+            }
+        }
+        return false; // Invalid role or user not found
+    }
+
+    // Add inventory item
+    @PostMapping("/{email}/add")
+    public ResponseEntity<String> addInventoryItem(@PathVariable String email, @RequestBody InventoryItem item) {
+        if (isValidRole(email, "Owner", "Manager")) {
+            inventoryService.addInventoryItem(item);
+            return ResponseEntity.ok("Inventory item added successfully");
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+
+    // Update inventory item
+    @PutMapping("/{email}/update/{id}")
+    public ResponseEntity<String> updateInventoryItem(@PathVariable String email, @PathVariable Long id, @RequestBody InventoryItem item) {
+        if (isValidRole(email, "Owner", "Manager","Staff")) {
+            inventoryService.updateInventoryItem(id, item);
+            return ResponseEntity.ok("Inventory item updated successfully");
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+ // Delete inventory item
+    @DeleteMapping("/{email}/delete/{id}")
+    public ResponseEntity<String> deleteInventoryItem(@PathVariable String email, @PathVariable Long id) {
+        if (isValidRole(email, "Owner", "Manager")) {
+            String result = inventoryService.deleteInventoryItem(id);
+            if (result.equals("Item deleted successfully")) {
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.status(404).body(result);
+            }
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+ // Get all inventory items (for Owner and Manager)
+    @GetMapping("/{email}/all")
+    public ResponseEntity<?> getAllInventoryItems(@PathVariable String email) {
+        if (isValidRole(email, "Owner", "Manager")) {
+            var items = inventoryService.getAllInventoryItems();
+            return ResponseEntity.ok(items);
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+ // Search inventory item by name (allowed for Owner, Manager, Staff)
+    @GetMapping("/{email}/search")
+    public ResponseEntity<?> searchInventoryItem(@PathVariable String email, @RequestParam String name) {
+        if (isValidRole(email, "Owner", "Manager", "Staff")) {
+            var items = inventoryService.searchInventoryByName(name);
+            if (items.isEmpty()) {
+                return ResponseEntity.ok("No inventory items found with name containing: " + name);
+            }
+            return ResponseEntity.ok(items);
+        }
+        return ResponseEntity.status(403).body("Access Denied: Insufficient permissions or User not found");
+    }
+
+
+}

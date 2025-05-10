@@ -1,0 +1,40 @@
+package com.example.demo.service;
+
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class AuthService {
+
+    private final UserRepository userRepository;
+
+    public AuthService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
+    public String register(String email, String password, String role) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            return "User already exists";
+        }
+        User user = new User(email, password, role);
+        userRepository.save(user);
+        return "User registered successfully";
+    }
+
+    public boolean login(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return user.getPassword().equals(password);
+        }
+        return false;
+    }
+}

@@ -1,0 +1,57 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.InventoryItem;
+import com.example.demo.service.InventoryService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/inventory")
+public class InventoryController {
+
+    private final InventoryService inventoryService;
+
+    public InventoryController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+    }
+
+    // Only Owner and Manager can add items
+    @PostMapping("/add")
+    public String addItem(@RequestBody InventoryItem item, @RequestParam String role) {
+        if (role.equals("Owner") || role.equals("Manager")) {
+            inventoryService.addItem(item);
+            return "Item added!";
+        } else {
+            return "Permission denied!";
+        }
+    }
+
+    // Anyone can view inventory items
+    @GetMapping("/all")
+    public List<InventoryItem> getAllItems() {
+        return inventoryService.getAllItems();
+    }
+
+    // Only Owner and Manager can update items
+    @PutMapping("/update/{index}")
+    public String updateItem(@PathVariable int index, @RequestBody InventoryItem item, @RequestParam String role) {
+        if (role.equals("Owner") || role.equals("Manager")) {
+            inventoryService.updateItem(index, item);
+            return "Item updated!";
+        } else {
+            return "Permission denied!";
+        }
+    }
+
+    // Only Owner and Manager can delete items
+    @DeleteMapping("/delete/{index}")
+    public String deleteItem(@PathVariable int index, @RequestParam String role) {
+        if (role.equals("Owner") || role.equals("Manager")) {
+            inventoryService.deleteItem(index);
+            return "Item deleted!";
+        } else {
+            return "Permission denied!";
+        }
+    }
+}

@@ -1,0 +1,33 @@
+package com.example.demo.service;
+
+import com.example.demo.model.InventoryItem;
+import com.example.demo.repository.InventoryRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class InventoryService {
+
+    private final InventoryRepository inventoryRepository;
+
+    public InventoryService(InventoryRepository inventoryRepository) {
+        this.inventoryRepository = inventoryRepository;
+    }
+
+    public void addItem(InventoryItem item) {
+        inventoryRepository.addItem(item);
+    }
+
+    public List<InventoryItem> getAllItems() {
+        return inventoryRepository.getAllItems();
+    }
+
+    public void updateItem(int index, InventoryItem item) {
+        inventoryRepository.updateItem(index, item);
+    }
+
+    public void deleteItem(int index) {
+        inventoryRepository.deleteItem(index);
+    }
+}

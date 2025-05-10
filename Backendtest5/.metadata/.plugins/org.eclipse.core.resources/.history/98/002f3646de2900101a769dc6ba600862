@@ -1,0 +1,29 @@
+package com.example.demo.repository;
+
+import com.example.demo.model.InventoryItem;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public class InventoryRepository {
+
+    private final List<InventoryItem> inventory = new ArrayList<>();
+
+    public void addItem(InventoryItem item) {
+        inventory.add(item);
+    }
+
+    public List<InventoryItem> getAllItems() {
+        return inventory;
+    }
+
+    public void updateItem(int index, InventoryItem item) {
+        inventory.set(index, item);
+    }
+
+    public void deleteItem(int index) {
+        inventory.remove(index);
+    }
+}

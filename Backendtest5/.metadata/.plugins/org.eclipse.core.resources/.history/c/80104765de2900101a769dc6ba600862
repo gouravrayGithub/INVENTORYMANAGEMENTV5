@@ -1,0 +1,55 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.InventoryItem;
+import com.example.demo.service.InventoryService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/inventory")
+public class InventoryController {
+
+    private final InventoryService inventoryService;
+
+    public InventoryController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addItem(@RequestBody InventoryItem item) {
+        InventoryItem savedItem = inventoryService.addItem(item);
+        return ResponseEntity.ok("Item added: " + savedItem.getName());
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<InventoryItem>> getAllItems() {
+        return ResponseEntity.ok(inventoryService.getAllItems());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<InventoryItem> getItemById(@PathVariable Long id) {
+        Optional<InventoryItem> item = inventoryService.getItemById(id);
+        return item.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateItem(@PathVariable Long id, @RequestBody InventoryItem item) {
+        InventoryItem updatedItem = inventoryService.updateItem(id, item);
+        if (updatedItem != null) {
+            return ResponseEntity.ok("Item updated: " + updatedItem.getName());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+        boolean deleted = inventoryService.deleteItem(id);
+        if (deleted) {
+            return ResponseEntity.ok("Item deleted");
+        }
+        return ResponseEntity.notFound().build();
+    }
+}
